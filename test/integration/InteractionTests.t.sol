@@ -22,7 +22,7 @@ contract FundMeTest is Test {
         DeployFundMe deployFundMe = new DeployFundMe();
         fundMe = deployFundMe.run();
         vm.deal(USER, STARTING_BALANCE); // This gives the USER address a starting balance of 50 ETH
-        // vm.deal() is a Foundry cheatcode that allows you to set the balance
+            // vm.deal() is a Foundry cheatcode that allows you to set the balance
     }
 
     function testUserCanFundInteractions() public {

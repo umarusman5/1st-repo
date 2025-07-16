@@ -23,7 +23,7 @@ contract FundMeTest is Test {
         DeployFundMe deployFundMe = new DeployFundMe();
         fundMe = deployFundMe.run();
         vm.deal(USER, STARTING_BALANCE); // This gives the USER address a starting balance of 50 ETH
-        // vm.deal() is a Foundry cheatcode that allows you to set the balance
+            // vm.deal() is a Foundry cheatcode that allows you to set the balance
     }
 
     function testMINIMUMUSDisFive() public view {
@@ -92,10 +92,7 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance; // Get the ending balance of the owner
         uint256 endingFundMeBalance = address(fundMe).balance;
         assertEq(endingFundMeBalance, 0);
-        assertEq(
-            endingOwnerBalance,
-            startingOwnerBalance + startingFundMeBalance
-        );
+        assertEq(endingOwnerBalance, startingOwnerBalance + startingFundMeBalance);
     }
 
     function testWithdrawWithMultipleFunders() public {
@@ -120,10 +117,7 @@ contract FundMeTest is Test {
 
         // Assert
         assertEq(address(fundMe).balance, 0);
-        assertEq(
-            startingFundMeBalance + startingOwnerBalance,
-            fundMe.getOwner().balance
-        );
+        assertEq(startingFundMeBalance + startingOwnerBalance, fundMe.getOwner().balance);
     }
 
     function testWithdrawWithMultipleFundersCheaper() public {
@@ -148,10 +142,7 @@ contract FundMeTest is Test {
 
         // Assert
         assertEq(address(fundMe).balance, 0);
-        assertEq(
-            startingFundMeBalance + startingOwnerBalance,
-            fundMe.getOwner().balance
-        );
+        assertEq(startingFundMeBalance + startingOwnerBalance, fundMe.getOwner().balance);
     }
 }
 

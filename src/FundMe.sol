@@ -43,10 +43,7 @@ contract FundMe {
         // The `PriceConverter` functions can be called as if they are native to the `uint256` type. For example, calling the `getConversionRate()` function will now be changed into:
         // `msg.value`, which is a `uint256` type, is extended to include the `getConversionRate()` function. The `msg.value` gets passed as the first argument to the function. If additional arguments are needed, they are passed in parentheses
 
-        require(
-            msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD,
-            "Didn't send enough Ether"
-        );
+        require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "Didn't send enough Ether");
         s_funders.push(msg.sender); // The `msg.sender` global variable refers to the address that **initiates the transaction**.
         // addresstoamount[msg.sender] = addresstoamount[msg.sender] + msg.value;
         s_addressToAmountFunded[msg.sender] += msg.value;
@@ -67,32 +64,22 @@ contract FundMe {
 
     function cheaperWithdraw() public onlyOwner {
         uint256 fundersLength = s_funders.length; // We will call from memory instead of storage to save gas
-        for (
-            uint256 funderIndex = 0;
-            funderIndex < fundersLength;
-            funderIndex++
-        ) {
+        for (uint256 funderIndex = 0; funderIndex < fundersLength; funderIndex++) {
             address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0; // Reset the amount funded
         }
         s_funders = new address[](0); // Reset the array of funders to an empty array
-        (bool CallSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
+        (bool CallSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(CallSuccess, "Call failed");
     }
 
     function withdraw() public onlyOwner {
-        for (
-            uint256 funderIndex = 0;
-            funderIndex < s_funders.length;
-            funderIndex++
-        ) {
+        for (uint256 funderIndex = 0; funderIndex < s_funders.length; funderIndex++) {
             address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0); // new address[]: Creates an empty array of type "address" (essentially like [...]). (0): Initializes the newly created array with zero length. When you want to remove all elements from an array (like deleting every item), but still keep its type as an array (address[]) for future use or other functions' compatibility reasons.
-        (bool CallSuccess, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool CallSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(CallSuccess, "Call failed");
     }
 
@@ -108,9 +95,7 @@ contract FundMe {
     /*
     View/Pure functions (Getters)*/
 
-    function getAddressToAmountFunded(
-        address fundingAddress
-    ) external view returns (uint256) {
+    function getAddressToAmountFunded(address fundingAddress) external view returns (uint256) {
         // This function is a getter function that returns the amount funded by a specific address
         return s_addressToAmountFunded[fundingAddress];
     }

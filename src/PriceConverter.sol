@@ -15,21 +15,16 @@ pragma solidity ^0.8.25;
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 library PriceConverter {
-    function getPrice(
-        AggregatorV3Interface pricefeed
-    ) internal view returns (uint256) {
+    function getPrice(AggregatorV3Interface pricefeed) internal view returns (uint256) {
         // Address 0x694AA1769357215DE4FAC081bf1f309aDC325306
         // ABI
         // The code below is inspired from the code on chainlink's website
-        (, int256 price, , , ) = pricefeed.latestRoundData(); // Price is int256 because it can be negative
+        (, int256 price,,,) = pricefeed.latestRoundData(); // Price is int256 because it can be negative
         // Price of ETH in terms of USD = 2500*10**8
         return uint256(price * 1e10);
     }
 
-    function getConversionRate(
-        uint256 AmountofETH,
-        AggregatorV3Interface pricefeed
-    ) internal view returns (uint256) {
+    function getConversionRate(uint256 AmountofETH, AggregatorV3Interface pricefeed) internal view returns (uint256) {
         // In this function we will get the total price of ETH according to the quantity the user sends
         uint256 ethPrice = getPrice(pricefeed);
         uint256 ethAmount = AmountofETH;
