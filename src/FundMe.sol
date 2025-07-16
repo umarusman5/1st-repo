@@ -76,7 +76,7 @@ contract FundMe {
             s_addressToAmountFunded[funder] = 0; // Reset the amount funded
         }
         s_funders = new address[](0); // Reset the array of funders to an empty array
-        (bool CallSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
+        (bool CallSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
         require(CallSuccess, "Call failed");
     }
 
